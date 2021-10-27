@@ -30,33 +30,31 @@ exit(EXIT_FAILURE);
 printf("Enter a positive number: ");
 scanf("%d",&number);
 
-close(pipefds[0]); //close read file
+//close(pipefds[0]); //close read file
 write(pipefds[1], &number, sizeof(number));
 printf("Done. \n\n");
-
 if(pid >0)
 {
 int i;
-wait(NULL);
 close(pipefds[1]);
-read(pipefds[0],&buffer,sizeof(buffer));
+read(pipefds[0],&number,sizeof(number));
 
-for (i = 2; i <= buffer / 2; ++i) {
+for (i = 2; i <= number / 2; ++i) {
     // condition for non-prime
-    if (buffer % i == 0) {
+    if (number % i == 0) {
       flag = 1;
       break;
     }
   }
 
-  if (buffer == 1) {
+  if (number == 1) {
     printf("1 is neither prime nor composite.");
   } 
   else {
     if (flag == 0)
-      printf("%d is a prime number.", buffer);
+      printf("%d is a prime number.\n", number);
     else
-      printf("%d is not a prime number.", buffer);
+      printf("%d is not a prime number.\n", number);
   }
 
   close(pipefds[0]);
